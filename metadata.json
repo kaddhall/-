@@ -1,0 +1,6 @@
+{
+  "name": "Shabansha+ | شبانشة",
+  "description": "نظام التشغيل الرقمي المتكامل لإدارة ومتابعة أنشطة ومنخرطي ومشاريع جمعية شبانشة",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
