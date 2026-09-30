@@ -256,7 +256,7 @@ export const SmartNotificationCenter: React.FC<SmartNotificationCenterProps> = (
             <CheckCircle2 className="w-8 h-8 text-emerald-500 mx-auto" />
             <div className="text-xs font-bold text-slate-700">لا توجد تنبيهات متأخرة أو عاجلة</div>
             <p className="text-[11px] text-slate-500">
-              كافة الأنشطة المبرمجة والتقارير تسير وفق المخطط الزمني المعتمد لجمعية شبانشة.
+              كافة الأنشطة المبرمجة والتقارير تسير وفق المخطط الزمني المعتمد لجمعية +.
             </p>
           </div>
         )}

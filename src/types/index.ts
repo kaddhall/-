@@ -124,6 +124,22 @@ export interface ProjectPhase {
   dueDate: string;
 }
 
+export type KanbanStatus = 'قيد الانتظار' | 'قيد التنفيذ' | 'مكتمل';
+
+export interface ProjectTask {
+  id: string;
+  projectId: string;
+  projectTitle: string;
+  title: string;
+  description?: string;
+  assignedTo: string;
+  priority: 'عاجل' | 'متوسط' | 'عادي';
+  status: KanbanStatus;
+  dueDate: string;
+  createdAt: string;
+  tags?: string[];
+}
+
 export interface YouthProject {
   id: string;
   code: string;
@@ -144,6 +160,7 @@ export interface YouthProject {
   status: 'قيد التخطيط' | 'قيد التنفيذ' | 'مرحلة التقييم' | 'منجز بنجاح';
   startDate: string;
   endDate: string;
+  tasks?: ProjectTask[];
 }
 
 export interface AssociationDocument {

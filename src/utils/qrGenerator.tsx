@@ -72,7 +72,7 @@ export const QRCodeSVG: React.FC<QRCodeSVGProps> = ({
   fgColor = '#0f172a',
   bgColor = '#ffffff',
   includeBadge = true,
-  badgeText = 'شبانشة+',
+  badgeText = 'جمعية +',
 }) => {
   const matrixSize = 25;
   const matrix = React.useMemo(() => generateQRMatrix(value, matrixSize), [value]);

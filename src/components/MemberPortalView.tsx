@@ -138,10 +138,10 @@ export const MemberPortalView: React.FC = () => {
             <div className="flex items-center justify-between border-b border-white/20 pb-3">
               <div>
                 <div className="text-[9px] text-emerald-300">الجمهورية الجزائرية الديمقراطية الشعبية</div>
-                <div className="text-xs font-bold text-white tracking-wide">جمعية شبانشة للتنمية والشباب</div>
+                <div className="text-xs font-bold text-white tracking-wide">جمعية + للتنمية والشباب</div>
               </div>
               <div className="w-7 h-7 rounded-lg bg-white/20 flex items-center justify-center font-bold text-white text-xs">
-                ش+
+                ج+
               </div>
             </div>
 
@@ -412,7 +412,7 @@ export const MemberPortalView: React.FC = () => {
           <div className="bg-white rounded-2xl max-w-2xl w-full border border-slate-200 shadow-xl overflow-hidden text-right">
             <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50">
               <span className="text-xs font-bold text-slate-900">
-                شهادة تقديرية رسمية - جمعية شبانشة
+                شهادة تقديرية رسمية - جمعية +
               </span>
               <button
                 onClick={() => setViewingCertificate(null)}
@@ -428,7 +428,7 @@ export const MemberPortalView: React.FC = () => {
                 <div className="text-xs text-slate-500 font-serif">
                   الجمهورية الجزائرية الديمقراطية الشعبية
                   <br />
-                  وزارة الشباب والرياضة · ولاية معسكر · بلدية شبانشة
+                  وزارة الشباب والرياضة · جمعية + للتنمية والشباب
                 </div>
 
                 <div className="text-xl sm:text-2xl font-extrabold text-amber-900 font-serif">
@@ -436,7 +436,7 @@ export const MemberPortalView: React.FC = () => {
                 </div>
 
                 <p className="text-xs sm:text-sm text-slate-700 leading-relaxed max-w-lg mx-auto">
-                  تتشرف جمعية شبانشة للتنمية والشباب بمنح هذه الشهادة لعضو الجمعية:
+                  تتشرف جمعية + للتنمية والشباب بمنح هذه الشهادة لعضو الجمعية:
                 </p>
 
                 <div className="text-xl sm:text-2xl font-bold text-slate-900 py-1 border-b border-amber-300 max-w-xs mx-auto">
@@ -452,7 +452,7 @@ export const MemberPortalView: React.FC = () => {
                 <div className="pt-6 flex items-center justify-between text-xs text-slate-600 border-t border-amber-200/60">
                   <div className="text-right">
                     <div>رمز الشهادة: <span className="font-mono-num">{viewingCertificate.code}</span></div>
-                    <div>حرر بشبانشة في: <span className="font-mono-num">{viewingCertificate.issueDate}</span></div>
+                    <div>حرر في: <span className="font-mono-num">{viewingCertificate.issueDate}</span></div>
                   </div>
 
                   <div className="text-center">

@@ -6,6 +6,8 @@ import {
   ProgramAxis,
   AnnualProgramItem,
   YouthProject,
+  ProjectTask,
+  KanbanStatus,
   AssociationDocument,
   Announcement,
   Poll,
@@ -20,6 +22,7 @@ import {
   INITIAL_PROGRAM_ITEMS,
   INITIAL_ACTIVITIES,
   INITIAL_PROJECTS,
+  INITIAL_PROJECT_TASKS,
   INITIAL_DOCUMENTS,
   INITIAL_ANNOUNCEMENTS,
   INITIAL_POLLS,
@@ -58,6 +61,7 @@ interface AppContextType {
   programAxes: ProgramAxis[];
   programItems: AnnualProgramItem[];
   projects: YouthProject[];
+  projectTasks: ProjectTask[];
   documents: AssociationDocument[];
   announcements: Announcement[];
   polls: Poll[];
@@ -65,6 +69,8 @@ interface AppContextType {
   smartNotifications: SmartNotification[];
   unreadNotificationsCount: number;
   toasts: Toast[];
+  isPermissionsModalOpen: boolean;
+  setIsPermissionsModalOpen: (open: boolean) => void;
 
   // Actions
   addToast: (message: string, type?: 'success' | 'info' | 'warning' | 'error') => void;
@@ -91,9 +97,13 @@ interface AppContextType {
   updateProgramItemProgress: (itemId: string, newProgress: number) => void;
   addProgramItem: (item: Omit<AnnualProgramItem, 'id'>) => void;
 
-  // Projects
+  // Projects & Tasks
   addProject: (project: Omit<YouthProject, 'id' | 'code' | 'progress'>) => void;
   updateProjectPhase: (projectId: string, phaseId: string, progress: number, status: 'completed' | 'current' | 'upcoming') => void;
+  addProjectTask: (task: Omit<ProjectTask, 'id' | 'createdAt'>) => void;
+  updateProjectTaskStatus: (taskId: string, newStatus: KanbanStatus) => void;
+  updateProjectTask: (task: ProjectTask) => void;
+  deleteProjectTask: (taskId: string) => void;
 
   // Documents
   addDocument: (doc: Omit<AssociationDocument, 'id' | 'code'>) => void;
@@ -120,6 +130,7 @@ const STORAGE_KEYS = {
   ACTIVITIES: 'shabansha_activities_v1',
   PROGRAM_ITEMS: 'shabansha_prog_items_v1',
   PROJECTS: 'shabansha_projects_v1',
+  PROJECT_TASKS: 'shabansha_proj_tasks_v1',
   DOCUMENTS: 'shabansha_documents_v1',
   ANNOUNCEMENTS: 'shabansha_announcements_v1',
   POLLS: 'shabansha_polls_v1',
@@ -161,6 +172,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     return saved ? JSON.parse(saved) : INITIAL_PROJECTS;
   });
 
+  const [projectTasks, setProjectTasks] = useState<ProjectTask[]>(() => {
+    const saved = localStorage.getItem(STORAGE_KEYS.PROJECT_TASKS);
+    return saved ? JSON.parse(saved) : INITIAL_PROJECT_TASKS;
+  });
+
   const [documents, setDocuments] = useState<AssociationDocument[]>(() => {
     const saved = localStorage.getItem(STORAGE_KEYS.DOCUMENTS);
     return saved ? JSON.parse(saved) : INITIAL_DOCUMENTS;
@@ -178,6 +194,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const [alerts, setAlerts] = useState<AssociationAlert[]>(INITIAL_ALERTS);
   const [toasts, setToasts] = useState<Toast[]>([]);
+  const [isPermissionsModalOpen, setIsPermissionsModalOpen] = useState(false);
   const [activeQRActivity, setActiveQRActivity] = useState<Activity | null>(null);
 
   // Smart Notifications State (Read & Dismissed tracking)
@@ -253,6 +270,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   }, [projects]);
 
   useEffect(() => {
+    localStorage.setItem(STORAGE_KEYS.PROJECT_TASKS, JSON.stringify(projectTasks));
+  }, [projectTasks]);
+
+  useEffect(() => {
     localStorage.setItem(STORAGE_KEYS.DOCUMENTS, JSON.stringify(documents));
   }, [documents]);
 
@@ -275,15 +296,27 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     // Optionally switch to suitable persona
     if (newRole === 'member') {
       setCurrentMemberIdState('mem-4'); // Sarah (volunteer / member)
-      setActiveTab('portal');
+      if (activeTab !== 'dashboard') {
+        setActiveTab('portal');
+      }
     } else if (newRole === 'manager') {
       setCurrentMemberIdState('mem-2'); // Meriem (coordinator)
-      setActiveTab('activities');
+      if (activeTab !== 'dashboard') {
+        setActiveTab('activities');
+      }
     } else {
       setCurrentMemberIdState('mem-1'); // Abdelkader (admin)
-      setActiveTab('dashboard');
+      if (activeTab !== 'dashboard') {
+        setActiveTab('dashboard');
+      }
     }
-    addToast(`تم التبديل إلى مستوى: ${newRole === 'admin' ? 'الإدارة العامة' : newRole === 'manager' ? 'مسؤول النشاط' : 'فضاء المنخرط'}`, 'info');
+    const roleTitle =
+      newRole === 'admin'
+        ? 'الإدارة العامة'
+        : newRole === 'manager'
+        ? 'مسؤول النشاط'
+        : 'المنخرط';
+    addToast(`تم التبديل إلى مستوى: ${roleTitle}`, 'info');
   };
 
   const setCurrentMemberId = (id: string) => {
@@ -538,6 +571,43 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     addToast('تم تحديث مراحل ومؤشرات تقدم المشروع', 'info');
   };
 
+  const addProjectTask = (task: Omit<ProjectTask, 'id' | 'createdAt'>) => {
+    const newTask: ProjectTask = {
+      ...task,
+      id: `ptk-${Date.now()}`,
+      createdAt: new Date().toISOString().split('T')[0],
+    };
+    setProjectTasks((prev) => [newTask, ...prev]);
+    addToast(`تمت إضافة المهمة: ${newTask.title}`, 'success');
+  };
+
+  const updateProjectTaskStatus = (taskId: string, newStatus: KanbanStatus) => {
+    setProjectTasks((prev) =>
+      prev.map((t) => {
+        if (t.id === taskId) {
+          if (newStatus === 'مكتمل' && t.status !== 'مكتمل') {
+            try {
+              confetti({ particleCount: 50, spread: 70, origin: { y: 0.7 } });
+            } catch (e) {}
+          }
+          return { ...t, status: newStatus };
+        }
+        return t;
+      })
+    );
+    addToast(`تم نقل المهمة إلى: "${newStatus}"`, 'info');
+  };
+
+  const updateProjectTask = (task: ProjectTask) => {
+    setProjectTasks((prev) => prev.map((t) => (t.id === task.id ? task : t)));
+    addToast(`تم تحديث بيانات المهمة: ${task.title}`, 'success');
+  };
+
+  const deleteProjectTask = (taskId: string) => {
+    setProjectTasks((prev) => prev.filter((t) => t.id !== taskId));
+    addToast('تم حذف المهمة من لوحة كانبان', 'info');
+  };
+
   // Documents
   const addDocument = (doc: Omit<AssociationDocument, 'id' | 'code'>) => {
     const code = `DOC-${String(Date.now()).slice(-4)}`;
@@ -625,6 +695,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         programAxes,
         programItems,
         projects,
+        projectTasks,
+        addProjectTask,
+        updateProjectTaskStatus,
+        updateProjectTask,
+        deleteProjectTask,
         documents,
         announcements,
         polls,
@@ -635,6 +710,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         dismissSmartNotification,
         markAllNotificationsAsRead,
         toasts,
+        isPermissionsModalOpen,
+        setIsPermissionsModalOpen,
         addToast,
         dismissToast,
         addMember,

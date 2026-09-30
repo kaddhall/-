@@ -46,7 +46,7 @@ export const CommunicationView: React.FC = () => {
       title: annTitle.trim(),
       content: annContent.trim(),
       priority: annPriority,
-      author: 'إدارة جمعية شبانشة',
+      author: 'إدارة جمعية +',
       targetRole: annTarget,
       isPinned: annPriority === 'عاجل',
     });

@@ -28,6 +28,7 @@ export const Header: React.FC = () => {
     setCurrentMemberId,
     smartNotifications,
     unreadNotificationsCount,
+    setIsPermissionsModalOpen,
   } = useApp();
 
   const [showRoleMenu, setShowRoleMenu] = React.useState(false);
@@ -57,8 +58,8 @@ export const Header: React.FC = () => {
       icon: <Calendar className="w-4 h-4 text-sky-600" />,
     },
     member: {
-      title: 'فضاء المنخرط',
-      desc: 'بطاقة العضوية والتسجيل والشهادات',
+      title: 'المنخرط',
+      desc: 'فضاء العضوية، التسجيل بالأنشطة، والشهادات',
       icon: <UserCheck className="w-4 h-4 text-amber-600" />,
     },
   };
@@ -74,14 +75,14 @@ export const Header: React.FC = () => {
               className="flex items-center gap-2.5 text-right focus:outline-hidden"
             >
               <div className="w-9 h-9 rounded-lg bg-emerald-600 flex items-center justify-center text-white font-bold text-base shadow-xs">
-                ش+
+                ج+
               </div>
               <div className="flex flex-col">
                 <span className="text-lg font-bold tracking-tight text-slate-900 leading-none">
-                  شبانشة+
+                  جمعية +
                 </span>
                 <span className="text-[11px] text-slate-500 font-medium mt-0.5">
-                  جمعية شبانشة للتنمية والشباب
+                  جمعية + للتنمية والشباب
                 </span>
               </div>
             </button>
@@ -141,7 +142,7 @@ export const Header: React.FC = () => {
             </div>
 
             {/* Role switcher menu */}
-            <div className="relative">
+            <div className="relative flex items-center gap-1.5">
               <button
                 onClick={() => {
                   setShowRoleMenu(!showRoleMenu);
@@ -152,6 +153,15 @@ export const Header: React.FC = () => {
                 {roleLabels[role].icon}
                 <span className="font-semibold">{roleLabels[role].title}</span>
                 <span className="text-slate-400 text-[10px]">▼</span>
+              </button>
+
+              <button
+                onClick={() => setIsPermissionsModalOpen(true)}
+                title="دليل ومصفوفة الصلاحيات حسب الوظيفة بالجمعية"
+                className="p-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 rounded-lg border border-emerald-200/70 transition-colors text-xs flex items-center gap-1 font-semibold"
+              >
+                <ShieldCheck className="w-4 h-4 text-emerald-600" />
+                <span className="hidden xl:inline text-[11px]">دليل الصلاحيات</span>
               </button>
 
               {showRoleMenu && (
@@ -183,7 +193,18 @@ export const Header: React.FC = () => {
                     </button>
                   ))}
 
-                  <div className="mt-2 pt-2 border-t border-slate-100">
+                  <div className="mt-2 pt-2 border-t border-slate-100 space-y-2">
+                    <button
+                      onClick={() => {
+                        setShowRoleMenu(false);
+                        setIsPermissionsModalOpen(true);
+                      }}
+                      className="w-full p-2 rounded-lg bg-emerald-50 hover:bg-emerald-100/80 text-emerald-900 text-xs font-bold flex items-center justify-center gap-2 border border-emerald-200 transition-colors"
+                    >
+                      <ShieldCheck className="w-4 h-4 text-emerald-600" />
+                      <span>عرض تفاصيل ومصفوفة الصلاحيات</span>
+                    </button>
+
                     <div className="px-2 pb-1 text-[10px] text-slate-400">
                       تبديل هوية المستخدم المسجل:
                     </div>

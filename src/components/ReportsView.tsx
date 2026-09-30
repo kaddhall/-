@@ -22,6 +22,7 @@ export const ReportsView: React.FC = () => {
     programItems,
     projects,
     addToast,
+    role,
   } = useApp();
 
   const [reportType, setReportType] = useState<'activity' | 'semester' | 'program' | 'members'>('semester');
@@ -98,6 +99,19 @@ export const ReportsView: React.FC = () => {
         </div>
       </div>
 
+      {/* Role permissions badge in ReportsView */}
+      <div className="p-3 rounded-xl bg-slate-100 border border-slate-200/80 flex items-center justify-between text-xs text-slate-700 no-print">
+        <div className="flex items-center gap-2">
+          <span className="font-bold">مستوى الصلاحية الحالي:</span>
+          <span className="px-2 py-0.5 rounded font-bold bg-white text-emerald-800 shadow-2xs border border-slate-200">
+            {role === 'admin' ? 'الإدارة العامة (كامل الصلاحيات)' : role === 'manager' ? 'مسؤول نشاط (تقارير النشاطات واللوجستيك)' : 'منخرط (معاينة التقرير الأدبي)'}
+          </span>
+        </div>
+        <span className="text-[11px] text-slate-500 hidden sm:inline">
+          {role === 'admin' ? 'يحق لك المصادقة وتوليد التقارير الرسمية بختم وإمضاء الرئيس' : role === 'manager' ? 'يمكنك استخراج تقارير الفعاليات وإحصائيات الحضور' : 'يقتصر دورك على الاطلاع على الحصائل العامة للجمعية'}
+        </span>
+      </div>
+
       {/* Report Selection Tabs */}
       <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-2xs space-y-3 no-print">
         <div className="text-xs font-bold text-slate-700">اختر نوع التقرير المطلوب توليده:</div>
@@ -154,10 +168,10 @@ export const ReportsView: React.FC = () => {
               مديرية الشباب والرياضة لولاية معسكر
             </div>
             <div className="w-14 h-14 rounded-xl bg-slate-900 text-white flex items-center justify-center font-bold text-xl shadow-xs">
-              ش+
+              ج+
             </div>
             <div className="text-left font-mono-num">
-              الرقم المرجعي: SHB/REP/2026/08
+              الرقم المرجعي: JAM/REP/2026/08
               <br />
               التاريخ: {new Date().toISOString().split('T')[0]}
               <br />
@@ -167,7 +181,7 @@ export const ReportsView: React.FC = () => {
 
           <div className="text-center pt-2">
             <h2 className="text-xl font-extrabold text-slate-900 tracking-wide font-serif">
-              جمعية شبانشة للتنمية والشباب
+              جمعية + للتنمية والشباب
             </h2>
             <div className="text-xs text-slate-500 font-medium mt-0.5">
               معتمدة تحت رقم 14/2022 طبقا للقانون رقم 12-06 المتعلق بالجمعيات
@@ -416,7 +430,7 @@ export const ReportsView: React.FC = () => {
           </div>
 
           <div className="text-center space-y-2">
-            <div className="font-bold">رئيس جمعية شبانشة</div>
+            <div className="font-bold">رئيس جمعية +</div>
             <div className="text-slate-400 font-serif pt-6">(توقيع وخاتم الرئيس)</div>
           </div>
         </div>

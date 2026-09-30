@@ -14,7 +14,7 @@ export const NewProjectModal: React.FC<NewProjectModalProps> = ({ isOpen, onClos
   const [title, setTitle] = useState('');
   const [problem, setProblem] = useState('');
   const [idea, setIdea] = useState('');
-  const [targetAudience, setTargetAudience] = useState('شباب وسكان بلدية شبانشة');
+  const [targetAudience, setTargetAudience] = useState('شباب وسكان المجتمع المحلي');
   const [leaderName, setLeaderName] = useState(members[0]?.name || 'عبد القادر حليمي');
   const [allocatedBudget, setAllocatedBudget] = useState<number>(300000);
   const [startDate, setStartDate] = useState('2026-10-01');
@@ -81,7 +81,7 @@ export const NewProjectModal: React.FC<NewProjectModalProps> = ({ isOpen, onClos
               <FolderPlus className="w-4 h-4" />
             </div>
             <h2 className="text-base font-bold text-slate-900">
-              إطلاق مشروع شبابي جديد ضمن حاضنة شبانشة
+              إطلاق مشروع شبابي جديد ضمن حاضنة جمعية +
             </h2>
           </div>
           <button onClick={onClose} className="text-slate-400 hover:text-slate-600">

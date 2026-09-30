@@ -20,11 +20,18 @@ import { QRAttendanceModal } from './components/QRAttendanceModal';
 import { NewActivityModal } from './components/NewActivityModal';
 import { NewMemberModal } from './components/NewMemberModal';
 import { NewProjectModal } from './components/NewProjectModal';
+import { PermissionsGuideModal } from './components/PermissionsGuideModal';
 import { ToastContainer } from './components/ToastContainer';
 import { Menu, Sparkles, Layers, Users, Calendar, UserCheck } from 'lucide-react';
 
 const AppContent: React.FC = () => {
-  const { activeTab, setActiveTab, role } = useApp();
+  const {
+    activeTab,
+    setActiveTab,
+    role,
+    isPermissionsModalOpen,
+    setIsPermissionsModalOpen,
+  } = useApp();
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
   // Global modals
@@ -162,6 +169,11 @@ const AppContent: React.FC = () => {
       <NewProjectModal
         isOpen={isNewProjectOpen}
         onClose={() => setIsNewProjectOpen(false)}
+      />
+
+      <PermissionsGuideModal
+        isOpen={isPermissionsModalOpen}
+        onClose={() => setIsPermissionsModalOpen(false)}
       />
 
       {/* Global Toast Notifications */}

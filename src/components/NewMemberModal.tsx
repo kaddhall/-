@@ -41,7 +41,7 @@ export const NewMemberModal: React.FC<NewMemberModalProps> = ({ isOpen, onClose 
       nationalId: nationalId.trim() || String(Math.floor(100000000000 + Math.random() * 900000000000)),
       birthDate,
       bloodGroup,
-      bio: bio.trim() || `عضو ناشط في جمعية شبانشة ضمن نادي ${club}.`,
+      bio: bio.trim() || `عضو ناشط في جمعية + ضمن نادي ${club}.`,
       joinDate: new Date().toISOString().split('T')[0],
     });
 
@@ -58,7 +58,7 @@ export const NewMemberModal: React.FC<NewMemberModalProps> = ({ isOpen, onClose 
               <UserPlus className="w-4 h-4" />
             </div>
             <h2 className="text-base font-bold text-slate-900">
-              تسجيل ملف منخرط جديد في جمعية شبانشة
+              تسجيل ملف منخرط جديد في جمعية +
             </h2>
           </div>
           <button onClick={onClose} className="text-slate-400 hover:text-slate-600">

@@ -455,7 +455,7 @@ export const AnnualProgramView: React.FC = () => {
                   required
                   value={formProjectTitle}
                   onChange={(e) => setFormProjectTitle(e.target.value)}
-                  placeholder="مثال: حاضنة مبتكرو شبانشة"
+                  placeholder="مثال: حاضنة مبتكري جمعية +"
                   className="w-full p-2.5 rounded-lg border border-slate-200"
                 />
               </div>

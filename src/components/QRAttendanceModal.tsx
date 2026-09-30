@@ -91,10 +91,10 @@ export const QRAttendanceModal: React.FC = () => {
             {/* QR Code */}
             <div className="p-3 bg-white rounded-2xl shadow-md border border-slate-200/70 inline-block">
               <QRCodeSVG
-                value={`https://shabansha.app/attendance/${currentAct.id}?pin=${currentAct.attendancePin}`}
+                value={`https://jamia-plus.app/attendance/${currentAct.id}?pin=${currentAct.attendancePin}`}
                 size={220}
                 fgColor="#042f2e"
-                badgeText="شبانشة+"
+                badgeText="جمعية +"
               />
             </div>
 
@@ -234,7 +234,7 @@ export const QRAttendanceModal: React.FC = () => {
         <div className="p-4 border-t border-slate-100 bg-slate-50 flex items-center justify-between text-xs text-slate-500 rounded-b-3xl">
           <div className="flex items-center gap-2">
             <ShieldCheck className="w-4 h-4 text-emerald-600" />
-            <span>نظام تسجيل الحضور الآلي المؤمن · جمعية شبانشة 2026</span>
+            <span>نظام تسجيل الحضور الآلي المؤمن · جمعية + 2026</span>
           </div>
           <button
             onClick={closeQRAttendanceModal}

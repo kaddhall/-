@@ -58,11 +58,11 @@ export const DocumentsView: React.FC = () => {
       title: newTitle.trim(),
       category: newCategory,
       date: new Date().toISOString().split('T')[0],
-      referenceNumber: newRef.trim() || `SHB/DOC/${new Date().getFullYear()}/${documents.length + 1}`,
+      referenceNumber: newRef.trim() || `JAM/DOC/${new Date().getFullYear()}/${documents.length + 1}`,
       author: newAuthor.trim(),
       fileFormat: newFormat,
       fileSize: '1.2 MB',
-      summary: newSummary.trim() || 'وثيقة إدارية مؤرشفة في مكتبة جمعية شبانشة.',
+      summary: newSummary.trim() || 'وثيقة إدارية مؤرشفة في مكتبة جمعية +.',
       tags: [newCategory, 'أرشيف رقمي'],
     });
 

@@ -22,7 +22,7 @@ interface MembersViewProps {
 }
 
 export const MembersView: React.FC<MembersViewProps> = ({ onOpenNewMemberModal }) => {
-  const { members, updateMember, activities } = useApp();
+  const { members, updateMember, activities, role } = useApp();
 
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedType, setSelectedType] = useState<string>('all');
@@ -100,7 +100,7 @@ export const MembersView: React.FC<MembersViewProps> = ({ onOpenNewMemberModal }
             إدارة المنخرطين والملفات الرقمية
           </h1>
           <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
-            سجل أعضاء جمعية شبانشة: منخرطين، متطوعين، مؤطرين، وأعضاء المكتب
+            سجل أعضاء جمعية +: منخرطين، متطوعين، مؤطرين، وأعضاء المكتب
           </p>
         </div>
 
@@ -119,13 +119,15 @@ export const MembersView: React.FC<MembersViewProps> = ({ onOpenNewMemberModal }
             <Printer className="w-4 h-4" />
             طباعة القائمة
           </button>
-          <button
-            onClick={onOpenNewMemberModal}
-            className="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold shadow-xs flex items-center gap-1.5 transition-colors whitespace-nowrap"
-          >
-            <Plus className="w-4 h-4" />
-            إضافة منخرط جديد
-          </button>
+          {role === 'admin' && (
+            <button
+              onClick={onOpenNewMemberModal}
+              className="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold shadow-xs flex items-center gap-1.5 transition-colors whitespace-nowrap"
+            >
+              <Plus className="w-4 h-4" />
+              إضافة منخرط جديد
+            </button>
+          )}
         </div>
       </div>
 
@@ -499,7 +501,7 @@ export const MembersView: React.FC<MembersViewProps> = ({ onOpenNewMemberModal }
           <div className="bg-white rounded-2xl max-w-md w-full border border-slate-200 shadow-xl overflow-hidden text-right">
             <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50">
               <span className="text-xs font-bold text-slate-900">
-                بطاقة العضوية الذكية - جمعية شبانشة
+                بطاقة العضوية الذكية - جمعية +
               </span>
               <button
                 onClick={() => setShowCardModal(null)}
@@ -521,10 +523,10 @@ export const MembersView: React.FC<MembersViewProps> = ({ onOpenNewMemberModal }
                 <div className="flex items-center justify-between text-right border-b border-white/20 pb-3">
                   <div>
                     <div className="text-[10px] text-emerald-300 font-medium">الجمهورية الجزائرية الديمقراطية الشعبية</div>
-                    <div className="text-sm font-bold text-white tracking-wide">جمعية شبانشة للتنمية والشباب</div>
+                    <div className="text-sm font-bold text-white tracking-wide">جمعية + للتنمية والشباب</div>
                   </div>
                   <div className="w-8 h-8 rounded-lg bg-white/20 flex items-center justify-center font-bold text-white text-xs">
-                    ش+
+                    ج+
                   </div>
                 </div>
 
